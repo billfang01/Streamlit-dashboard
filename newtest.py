@@ -5,6 +5,7 @@ Created on Wed Apr  3 15:12:20 2024
 @author: python2
 """
 
+import os
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -38,8 +39,9 @@ df = yf.copy()
 fred_api_key = FRED_API_KEY
 
 def get_data(series_id):
+    fred_api_key = os.environ.get('FRED_API_KEY')
     if fred_api_key is None:
-        raise ValueError("FRED API key not found in .env file")
+        raise ValueError("FRED API key not found in environment variables")
 
     url = f"https://api.stlouisfed.org/fred/series/observations?series_id={series_id}&api_key={fred_api_key}&file_type=json"
     
