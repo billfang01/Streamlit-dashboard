@@ -35,7 +35,7 @@ df = yf.copy()
 
 #env_vars = dotenv_values('config.env')
 #fred_api_key = env_vars.get('FRED_API_KEY')
-fred_api_key = 'FRED_API_KEY'
+fred_api_key = FRED_API_KEY
 
 def get_data(series_id):
     if fred_api_key is None:
