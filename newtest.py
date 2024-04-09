@@ -23,9 +23,9 @@ today = datetime.date.today()
 
 ###
 
-yf = yf.download("^GSPC GC=F HG=F ^TWII", start="1980-01-01", end=today)
+yf = yf.download("^GSPC GC=F HG=F ^VIX ^TWII", start="1980-01-01", end=today)
 yf = yf['Close'].copy()
-yf.columns = ['Gold', 'Copper', 'S&P500','加權指數']
+yf.columns = ['Gold', 'Copper', 'S&P500','加權指數','VIX恐慌指數']
 
 yf['金銅比'] = yf['Gold'] / yf['Copper']
 
@@ -85,7 +85,7 @@ df = pd.merge(df, percent_change_from_year_ago_resampled, left_index=True, right
 
 del df['CPI_x']
 
-df.columns = ['Gold', 'Copper', 'S&P500','加權指數','金銅比','殖利率倒掛','CPI年增率']
+df.columns = ['Gold', 'Copper', 'S&P500','加權指數','VIX恐慌指數','金銅比','殖利率倒掛','CPI年增率']
 
 df  = round(df, 2)
 
