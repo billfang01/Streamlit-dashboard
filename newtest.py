@@ -92,28 +92,41 @@ df  = round(df, 2)
 st.title("量化地平線")
 
 
-latest_yield_curve_data = indicators_df['yield_curve'].tail(2)
-latest_cpi_percent_change = percent_change_from_year_ago.tail(2)
-latest_yf_change = yf.tail(2)
+selected_products_left = st.sidebar.selectbox('顯示左軸產品數據', yf_data.columns, key='left')
+selected_products_right = st.sidebar.selectbox('顯示右軸產品數據', yf_data.columns, key='right')
 
 
+chart_type_left = st.sidebar.selectbox('選擇類型(左)', ['折線圖', '柱狀圖'], key='left_chart_type')
+chart_type_right = st.sidebar.selectbox('選擇類型(右)', ['折線圖', '柱狀圖'], key='right_chart_type')
 
-selected_products_left = st.selectbox('顯示左軸產品數據', df.columns, key='left')
-selected_products_right = st.selectbox('顯示右軸產品數據', df.columns, key='right')
+
+latest_data_left = yf_data[selected_products_left].iloc[-1]
+latest_data_right = yf_data[selected_products_right].iloc[-1]
 
 
-latest_data_left = df[selected_products_left].iloc[-1]
-latest_data_right = df[selected_products_right].iloc[-1]
+start_column, end_column = st.sidebar.columns(2)
+
+
+start_date = start_column.date_input('開始日期', min_value=datetime.date(1980, 1, 2), max_value=datetime.date.today())
+
+
+end_date = end_column.date_input('結束日期', min_value=datetime.date(1980, 1, 2), max_value=datetime.date.today(), value=datetime.date.today())
+
+
+filtered_df = yf_data.loc[start_date:end_date]
+
+
 
 
 fig = make_subplots(specs=[[{"secondary_y": True}]])
 
 
-fig.add_trace(go.Scatter(x=df.index, y=df[selected_products_left], mode='lines', name=selected_products_left), secondary_y=False)
+if chart_type_right == '折線圖':
+    fig.add_trace(go.Scatter(x=filtered_df.index, y=filtered_df[selected_products_right], mode='lines', name=selected_products_right), secondary_y=True)
+else:
+    fig.add_trace(go.Bar(x=filtered_df.index, y=filtered_df[selected_products_right], name=selected_products_right, opacity=0.3), secondary_y=True)
 
-
-fig.add_trace(go.Scatter(x=df.index, y=df[selected_products_right], mode='lines', name=selected_products_right), secondary_y=True)
-
+fig.add_trace(go.Scatter(x=filtered_df.index, y=filtered_df[selected_products_left], mode='lines', name=selected_products_left, line=dict(color='red')), secondary_y=False)
 
 
 fig.update_layout(title='走勢圖',
@@ -122,22 +135,8 @@ fig.update_layout(title='走勢圖',
                   yaxis2_title='右軸產品數值' if selected_products_right else '',
                   width=1000, height=400)
 
-
-st.markdown("<style>div.stBlock {padding-top: 50000px;}</style>", unsafe_allow_html=True)
-
 st.plotly_chart(fig)
 
-
-
-
-with st.sidebar:
-    st.metric(label=f"最新數據 ({selected_products_left}):", value=f":{latest_data_left:,.2f}", delta=None, help=None)
-    
-    
-    st.write('---')
-
-    
-    st.metric(label=f"最新數據 ({selected_products_right}):", value=f":{latest_data_right:,.2f}", delta=None, help=None)
 
 
 
