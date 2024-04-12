@@ -92,16 +92,16 @@ df  = round(df, 2)
 st.title("量化地平線")
 
 
-selected_products_left = st.sidebar.selectbox('顯示左軸產品數據', yf_data.columns, key='left')
-selected_products_right = st.sidebar.selectbox('顯示右軸產品數據', yf_data.columns, key='right')
+selected_products_left = st.sidebar.selectbox('顯示左軸產品數據', df_data.columns, key='left')
+selected_products_right = st.sidebar.selectbox('顯示右軸產品數據', df_data.columns, key='right')
 
 
 chart_type_left = st.sidebar.selectbox('選擇類型(左)', ['折線圖', '柱狀圖'], key='left_chart_type')
 chart_type_right = st.sidebar.selectbox('選擇類型(右)', ['折線圖', '柱狀圖'], key='right_chart_type')
 
 
-latest_data_left = yf_data[selected_products_left].iloc[-1]
-latest_data_right = yf_data[selected_products_right].iloc[-1]
+latest_data_left = df_data[selected_products_left].iloc[-1]
+latest_data_right = df_data[selected_products_right].iloc[-1]
 
 
 start_column, end_column = st.sidebar.columns(2)
