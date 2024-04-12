@@ -113,7 +113,7 @@ start_date = start_column.date_input('開始日期', min_value=datetime.date(198
 end_date = end_column.date_input('結束日期', min_value=datetime.date(1980, 1, 2), max_value=datetime.date.today(), value=datetime.date.today())
 
 
-filtered_df = yf_data.loc[start_date:end_date]
+filtered_df = df_data.loc[start_date:end_date]
 
 
 
