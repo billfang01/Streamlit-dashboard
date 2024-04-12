@@ -33,8 +33,7 @@ fred_api_key = env_vars.get('FRED_API_KEY')
 
 
 def get_data(series_id):
-    if fred_api_key is None:
-        raise ValueError("FRED API key not found in .env file")
+    fred_api_key = os.environ.get('FRED_API_KEY')
 
     url = f"https://api.stlouisfed.org/fred/series/observations?series_id={series_id}&api_key={fred_api_key}&file_type=json"
     response = requests.get(url)
