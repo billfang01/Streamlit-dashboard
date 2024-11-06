@@ -59,7 +59,7 @@ percent_change_from_year_ago_resampled = percent_change_from_year_ago.resample('
 yf_data = pd.merge(yf_data, indicators_df_resampled, left_index=True, right_index=True, how='left')
 yf_data = pd.merge(yf_data, percent_change_from_year_ago_resampled, left_index=True, right_index=True, how='left')
 del yf_data['CPI_x']
-yf_data.columns = ['Gold', 'Copper', 'S&P500', '加權指數', 'VIX恐慌指數', '金銅比', '殖利率倒掛', 'CPI年增率']
+yf_data.columns = ['Gold', 'Copper', '10years', 'S&P500', '加權指數', 'VIX恐慌指數', '金銅比', '殖利率倒掛', 'CPI年增率']
 yf_data = round(yf_data, 2)
 
 # 設置Streamlit頁面標題
