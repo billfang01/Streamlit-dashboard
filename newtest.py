@@ -22,9 +22,9 @@ from dotenv import dotenv_values
 ##
 
 today = datetime.date.today()
-yf_data = yf.download("^GSPC GC=F HG=F ^VIX ^TWII", start="1980-01-01", end=today)
+yf_data = yf.download("^GSPC GC=F HG=F ^VIX ^TWII ZN=F", start="1980-01-01", end=today)
 yf_data = yf_data['Close'].copy()
-yf_data.columns = ['Gold', 'Copper', 'S&P500', '加權指數', 'VIX恐慌指數']
+yf_data.columns = ['Gold', 'Copper', '10years','S&P500', '加權指數', 'VIX恐慌指數']
 yf_data['金銅比'] = yf_data['Gold'] / yf_data['Copper']
 
 
